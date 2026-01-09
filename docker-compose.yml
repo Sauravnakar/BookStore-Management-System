@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  # 1. The Web Server (PHP + Apache)
+  web-server:
+    build: .
+    container_name: bookstore-web
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - db-server
+    networks:
+      - bookstore-network
+
+  # 2. The Database Server (MySQL)
+  db-server:
+    image: mysql:8.0
+    container_name: bookstore-db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: bookstore_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    networks:
+      - bookstore-network
+
+  # 3. Database Manager (Optional - helps you verify it works)
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: bookstore-pma
+    environment:
+      PMA_HOST: db-server
+      MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - "8081:80"
+    depends_on:
+      - db-server
+    networks:
+      - bookstore-network
+
+# 4. Networking (This was where your error was)
+networks:
+  bookstore-network:
+    driver: bridge
