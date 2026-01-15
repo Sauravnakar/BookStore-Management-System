@@ -1,5 +1,5 @@
 <?php
-$host = 'db-server'; // Matches the service name in docker-compose.yml
+$host = 'db-server';
 $db   = 'bookstore_db';
 $user = 'user';
 $pass = 'password';
@@ -14,7 +14,19 @@ $options = [
 
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
+    
+    // --- NEW: Auto-Create Table if it doesn't exist ---
+    $sql = "CREATE TABLE IF NOT EXISTS books (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        author VARCHAR(255) NOT NULL,
+        price DECIMAL(10, 2) NOT NULL
+    )";
+    $pdo->exec($sql);
+    // --------------------------------------------------
+
 } catch (\PDOException $e) {
-    throw new \PDOException($e->getMessage(), (int)$e->getCode());
+    // If connection fails, stop and show error
+    die("Database Connection Failed: " . $e->getMessage());
 }
 ?>
