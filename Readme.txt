@@ -14,7 +14,7 @@ A containerized web application for managing book inventory, developed as part o
 Installation & Setup
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/Sauravnakar/BookStore-Management-System.git](https://github.com/Sauravnakar/BookStore-Management-System.git)
+   git clone [https://github.com/Sauravnakar/BookStore-Management-System.git]
  
 2. Navigate to the directory:
 
@@ -29,5 +29,6 @@ Installation & Setup
 4.Access the application:
 
   Web App: http://localhost:8080
+
 
   phpMyAdmin: http://localhost:8081 (User: root / Password: rootpassword)
